@@ -54,3 +54,8 @@ dependencyManagement {
         mavenBom "org.keycloak.bom:keycloak-dependencies-server-all:${keycloakVersion}"
     }
 }
+
+springBoot {
+    //noinspection GroovyAccessibility
+    requiresUnpack = ['org.keycloak:keycloak-model-jpa']
+}

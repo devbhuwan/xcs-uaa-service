@@ -4,7 +4,9 @@
       "name": "x-cloud-school",
       "types": [
         "login",
-        "welcome"
+        "welcome",
+        "admin",
+        "account"
       ]
     }
   ]
