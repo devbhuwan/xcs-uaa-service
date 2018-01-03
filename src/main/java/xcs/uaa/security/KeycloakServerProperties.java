@@ -1,59 +1,24 @@
 package xcs.uaa.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "keycloak.server")
+@Getter
+@Setter
 public class KeycloakServerProperties {
 
     private String contextPath = "/auth";
-
     private AdminUser adminUser = new AdminUser();
     private String importRealms;
 
-    public String getImportRealms() {
-        return importRealms;
-    }
-
-    public void setImportRealms(String importRealms) {
-        this.importRealms = importRealms;
-    }
-
-    public String getContextPath() {
-        return contextPath;
-    }
-
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
-    }
-
-    public AdminUser getAdminUser() {
-        return adminUser;
-    }
-
-    public void setAdminUser(AdminUser adminUser) {
-        this.adminUser = adminUser;
-    }
-
+    @Getter
+    @Setter
     public static class AdminUser {
 
         private String username = "admin";
 
         private String password = "admin";
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 }
