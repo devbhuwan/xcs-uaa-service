@@ -5,9 +5,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "keycloak.server")
 public class KeycloakServerProperties {
 
-    String contextPath = "/auth";
+    private String contextPath = "/auth";
 
-    AdminUser adminUser = new AdminUser();
+    private AdminUser adminUser = new AdminUser();
+    private String importRealms;
+
+    public String getImportRealms() {
+        return importRealms;
+    }
+
+    public void setImportRealms(String importRealms) {
+        this.importRealms = importRealms;
+    }
 
     public String getContextPath() {
         return contextPath;
@@ -27,9 +36,9 @@ public class KeycloakServerProperties {
 
     public static class AdminUser {
 
-        String username = "admin";
+        private String username = "admin";
 
-        String password = "admin";
+        private String password = "admin";
 
         public String getUsername() {
             return username;

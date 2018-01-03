@@ -1,5 +1,6 @@
 package xcs.uaa.security;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.resteasy.plugins.server.servlet.HttpServlet30Dispatcher;
 import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
 import org.keycloak.services.filters.KeycloakSessionServletFilter;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.naming.*;
 import javax.naming.spi.NamingManager;
 import javax.sql.DataSource;
+import java.util.Optional;
 
 @Configuration
 class EmbeddedKeycloakConfig {
@@ -24,7 +26,7 @@ class EmbeddedKeycloakConfig {
 
         //FIXME: hack to propagate Spring Boot Properties to Keycloak Application
         EmbeddedKeycloakApplication.keycloakServerProperties = keycloakServerProperties;
-
+        enableImportRealms(keycloakServerProperties);
         ServletRegistrationBean servlet = new ServletRegistrationBean(new HttpServlet30Dispatcher());
         servlet.addInitParameter("javax.ws.rs.Application", EmbeddedKeycloakApplication.class.getName());
         servlet.addInitParameter(ResteasyContextParameters.RESTEASY_SERVLET_MAPPING_PREFIX, keycloakServerProperties.getContextPath());
@@ -34,6 +36,24 @@ class EmbeddedKeycloakConfig {
         servlet.setAsyncSupported(true);
 
         return servlet;
+    }
+
+    private void enableImportRealms(KeycloakServerProperties keycloakServerProperties) {
+        if (StringUtils.isNotBlank(keycloakServerProperties.getImportRealms())) {
+            StringBuilder importPaths = new StringBuilder();
+            final String[] paths = keycloakServerProperties.getImportRealms().split(",");
+            for (int i = 0; i < paths.length; i++) {
+                importPaths
+                        .append(Optional.ofNullable(
+                                EmbeddedKeycloakApplication.class.getClassLoader().getResource(paths[i]))
+                                .orElseThrow(IllegalArgumentException::new)
+                                .getPath());
+                if (i < paths.length - 1) {
+                    importPaths.append(",");
+                }
+            }
+            System.setProperty("keycloak.import", importPaths.toString());
+        }
     }
 
     @Bean

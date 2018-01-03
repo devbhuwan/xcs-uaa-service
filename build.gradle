@@ -5,6 +5,7 @@ buildscript {
 configure(project) {
     apply from: "${projectDir}/gradle/applyPlugins.gradle"
     apply from: "${projectDir}/gradle/repositories.gradle"
+    apply from: "${projectDir}/gradle/dependencies.gradle"
     apply from: "${projectDir}/gradle/docs.gradle"
     apply from: "${projectDir}/gradle/jacocoReport.gradle"
 }
@@ -20,6 +21,7 @@ dependencies {
     compile("com.h2database:h2:1.4.196")
     apt("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile("org.keycloak:keycloak-authz-client:${keycloakVersion}")
 }
 
 apply from: "${projectDir}/gradle/mavenBom.gradle"

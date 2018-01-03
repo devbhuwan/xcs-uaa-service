@@ -14,4 +14,4 @@ resteasy:
 keycloak:
   server:
     contextPath: /auth
-    importRealms: import-realm.json
+    importRealms: test-import-realm.json

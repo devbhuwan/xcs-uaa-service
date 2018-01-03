@@ -1,0 +1,5 @@
+dependencies {
+    testCompile("junit:junit")
+    compile("org.projectlombok:lombok:${lombokVersion}")
+    testCompile("org.assertj:assertj-core")
+}
