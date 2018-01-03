@@ -1,39 +1,14 @@
 buildscript {
-    ext {
-        springBootVersion = '1.5.9.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-plugins {
-    id "net.ltgt.apt" version "0.13"
-}
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: "net.ltgt.apt"
-
-group = 'io.github.xcloudschool'
-version = 'Baby.M1'
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-    maven {
-        url "https://repository.jboss.org/nexus/content/repositories/releases/"
-    }
+    apply from: "${projectDir}/gradle/buildscript.gradle", to: buildscript
 }
 
-ext {
-    springBootVersion = '1.5.9.RELEASE'
-    keycloakVersion = '3.4.1.Final'
-    resteasyAsyncHttpVersion = '3.0.19.Final'
-    resteasyVersion = '3.1.4.Final'
+configure(project) {
+    apply from: "${projectDir}/gradle/applyPlugins.gradle"
+    apply from: "${projectDir}/gradle/repositories.gradle"
+    apply from: "${projectDir}/gradle/docs.gradle"
+    apply from: "${projectDir}/gradle/jacocoReport.gradle"
 }
+
 
 dependencies {
     compile("org.jboss.resteasy:async-http-servlet-3.0:${resteasyAsyncHttpVersion}")
@@ -47,13 +22,9 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
-compileJava.dependsOn(processResources)
+apply from: "${projectDir}/gradle/mavenBom.gradle"
 
-dependencyManagement {
-    imports {
-        mavenBom "org.keycloak.bom:keycloak-dependencies-server-all:${keycloakVersion}"
-    }
-}
+compileJava.dependsOn(processResources)
 
 springBoot {
     //noinspection GroovyAccessibility
