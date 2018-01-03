@@ -16,7 +16,7 @@ public class XcsUaaServiceApplicationTests {
     protected String authServer;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.authServer = "http://localhost:" + port + "/auth";
     }
 
