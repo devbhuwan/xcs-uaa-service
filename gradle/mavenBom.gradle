@@ -1,0 +1,6 @@
+dependencyManagement {
+    imports {
+        //noinspection GroovyAssignabilityCheck
+        mavenBom "org.keycloak.bom:keycloak-dependencies-server-all:${keycloakVersion}"
+    }
+}
